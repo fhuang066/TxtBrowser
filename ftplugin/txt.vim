@@ -59,9 +59,15 @@ if (exists('Tlist_Enc_Patch') || has("unix"))
 	let s:TBrowser_Config .= '--regex-txt="/^[ \t　]*(第[一二三四五六七八九十百千零]+部[ \t　]*.*)$/\1/c,content/" '
 	let s:TBrowser_Config .= '--regex-txt="/^[ \t　]*(第[一二三四五六七八九十百千零]+章[ \t　]*.*)$/.   \1/c,content/" '
 	let s:TBrowser_Config .= '--regex-txt="/^[ \t　]*(第[一二三四五六七八九十百千零]+节[ \t　]*.*)$/.       \1/c,content/" '
-	if ('utf8' != &fenc)
-		let s:TBrowser_Config = iconv(s:TBrowser_Config, 'utf8', &fenc)
-	endif
+        if (&enc == 'cp936')
+            if ('utf-8' != &fenc)
+                let s:TBrowser_Config = iconv(s:TBrowser_Config, 'utf-8', &fenc)
+            endif
+        elseif (&enc == 'utf-8')
+            if ('utf-8' == &fenc)
+                let s:TBrowser_Config = iconv(s:TBrowser_Config, 'cp936', 'utf-8')
+            endif
+        endif
 endif
 
 "Pass parameters to taglist
